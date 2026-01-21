@@ -61,4 +61,18 @@ Target_Pressure = 50; % Target Regulated Pressure [bar]
 V_1 = 10;           % HP Tank volume [L] (N2 Tank)
 V_2 = 13;           % Prop tank volume [L] (Fuel Tank)
 ```
+## Commit Types
 
+| Type | Description | Example |
+| :--- | :--- | :--- |
+| **feat** | A new feature for the user | `feat: add email notification system` |
+| **fix** | A bug fix | `fix: correct typo in landing page` |
+| **chore** | Regular maintenance/tooling (no code change) | `chore: update npm packages` |
+| **docs** | Documentation changes only | `docs: update README with API keys` |
+| **style** | Formatting, missing semi-colons, etc. (no logic change) | `style: run prettier on auth folder` |
+| **refactor** | Code change that neither fixes a bug nor adds a feature | `refactor: clean up redundant if-statements` |
+| **perf** | A code change that improves performance | `perf: optimize database query for users` |
+| **test** | Adding missing tests or correcting existing tests | `test: add unit tests for login controller` |
+| **build** | Changes that affect the build system (e.g., Gulp, Webpack) | `build: change output directory to /dist` |
+| **ci** | Changes to CI configuration files/scripts | `ci: update github actions to v4` |
+| **revert** | Reverts a previous commit | `revert: feat: add email notification system` |
