@@ -2,8 +2,6 @@
 
 This repository implements a feed system tank drain model with an Electronic Regulator (E-reg) controller, using an actuated ball valve. It includes both MATLAB/Simulink models and Python analysis scripts.
 
-> **Note:** This implementation is tailored for the RP3 project. For detailed theoretical background and design decisions, please refer to the included report PDF (`U2127994_RP3_E_Regs.pdf`).
-
 > **Compatibility Note:** This project is built using **MATLAB 2025b**. Users on **MATLAB 2025a** must use the `EReg_Tank_Drain_2025a.slx` file instead of the main model.
 
 ## Key Features
