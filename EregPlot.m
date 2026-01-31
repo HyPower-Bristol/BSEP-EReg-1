@@ -130,6 +130,9 @@ try
         xlabel('Time (s)');
         legend({'Fuel Flow', 'Nitrogen Flow'}, 'Location', 'best');
         grid on;
+        % Save the plot
+        saveas(gcf, 'mass_flow.png');
+        disp('Saved mass_flow.png');
     end
 catch
     % disp('Skipping Mass Flow plot.');
