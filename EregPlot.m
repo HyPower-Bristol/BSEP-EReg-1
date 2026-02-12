@@ -139,7 +139,7 @@ end
 try
     % Access 'logsout' dataset
     ds = results.logsout;
-    rho_L = 1000; % Propellant Density [kg/m^3]
+    rho_L = 789; % Propellant Density [kg/m^3]
 
     % --- Fuel Mass (m_3) ---
     ts_fuel_mass = [];
