@@ -5,10 +5,10 @@
 %-------------------------------------------------------
 
 % --- Controller Parameters ---
-K_P = 4;           % Proportional Constant
-K_I = 2;           % Integral Constant
-K_D = 12;            % Derivative Constant
-N = 50;            % Filter Coefficient (Derivative)
+K_P = 10;           % Proportional Constant
+K_I = 3;           % Integral Constant
+K_D = 2;            % Derivative Constant
+N = 20;            % Filter Coefficient (Derivative)
 Feedforward = 8;    % Reg Valve Feed Forward step in degrees
 Servo_Speed = 180;  % Forward and Reverse Speed of the Servo [deg/s]
 
@@ -32,7 +32,7 @@ Kv_2 = 1;           % Set water valve opening Kv for step change
 V_1 = 6.8;          % HP Tank volume [L] (Nitrogen Tank)
 V_2 = 4.96;         % Prop tank volume [L] (Converted from 0.00496 m^3)
 A_3 = 13.27e-6;     % Injector Orifice Area [m^2] (Converted from 13.27 mm^2)
-Cd_3 = 0.543;      % Injector Orifice Discharge Coefficient
+Cd_3 = 0.7;      % Injector Orifice Discharge Coefficient
 K_v_4 = 0.5;        % Flow coefficient of the check valve
 Kv_1_max = 1;       % Reg Valve Maximum Kv
 
