@@ -129,6 +129,33 @@ P_4_0 = P_4_0_Pa;
 m_2_0 = rho_2_0*(V_2-(m_3_0/rho_L)); % Get ullage gas initial mass
 m_1_0 = V_1*rho_1_0;                 % Should equal ~2.5 kg
 
+% --- MPC Controller Setup ---
+% 1. Define Sample Time and Horizons
+Ts = 0.01;              % Controller sample time [s]
+PredictionHorizon = 20; % How many steps ahead to predict (0.2 seconds)
+ControlHorizon = 5;     % How many servo moves to calculate ahead
+
+% --- Plant Extraction (The Fix) ---
+% Bypass the "zero-gain" trap by giving the MPC a generic Integrator model
+% "1 degree of valve opening adds roughly 5 bar/sec of pressure"
+plant_model = tf(5, [1 0]); 
+
+% Explicitly tell the MPC object which signal is which
+plant_model = setmpcsignals(plant_model, 'MV', 1, 'MO', 1);
+
+% Create the REAL MPC Object
+mpcobj = mpc(plant_model, Ts, PredictionHorizon, ControlHorizon);
+
+% Set Hardware Constraints (Servo Limits)
+mpcobj.MV.Min = 0;      
+mpcobj.MV.Max = 90;     
+mpcobj.MV.RateMin = -Servo_Speed * Ts; 
+mpcobj.MV.RateMax = Servo_Speed * Ts;  
+
+% Set Controller Tuning Weights
+mpcobj.Weights.ManipulatedVariablesRate = 0.1; % Let the valve move relatively fast
+mpcobj.Weights.OutputVariables = 1;            % High priority on holding 50 bar
+
 %-------------------------------------------------------
 %------------- Run Simulink Models ---------------------
 %-------------------------------------------------------
