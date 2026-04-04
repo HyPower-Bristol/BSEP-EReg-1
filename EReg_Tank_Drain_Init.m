@@ -167,4 +167,4 @@ m_1_0 = V_1*rho_1_0;                 % Get high pressure N2 initial mass
 %-------------------------------------------------------
 %------------- Run Simulink Models ---------------------
 %-------------------------------------------------------
-results = sim("EReg_Tank_Drain.slx", "StopTime", num2str(Sim_Duration));
+results = sim("EReg_Tank_DrainUSETHIS.slx", "StopTime", num2str(Sim_Duration));
