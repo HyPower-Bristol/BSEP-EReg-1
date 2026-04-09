@@ -130,9 +130,6 @@ try
         xlabel('Time (s)');
         legend({'Fuel Flow', 'Nitrogen Flow'}, 'Location', 'best');
         grid on;
-        % Save the plot
-        saveas(gcf, 'mass_flow.png');
-        disp('Saved mass_flow.png');
     end
 catch
     % disp('Skipping Mass Flow plot.');
@@ -142,7 +139,7 @@ end
 try
     % Access 'logsout' dataset
     ds = results.logsout;
-    rho_L = 1000; % Propellant Density [kg/m^3]
+    rho_L = 789; % Propellant Density [kg/m^3]
 
     % --- Fuel Mass (m_3) ---
     ts_fuel_mass = [];
