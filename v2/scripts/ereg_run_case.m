@@ -14,5 +14,10 @@ P.sequence = { ...
     1.0, 'PRESSURIZE', P.Target_Pressure; ...
     6.0, 'RUN',        P.Target_Pressure};
 ereg_fanout(P);
-results = sim('EReg_v2', 'StopTime', num2str(P.Sim_Duration));
+if strcmp(fluid_name, 'N2O')
+    mdl = 'EReg_v2_N2O';
+else
+    mdl = 'EReg_v2';
+end
+results = sim(mdl, 'StopTime', num2str(P.Sim_Duration));
 end

@@ -30,7 +30,8 @@ P.Kv_1_max = 1;           % regulator valve max Kv
 if nargin < 1, fluid_name = 'water'; end
 presets = struct( ...
     'water', struct('rho_L', 1000), ...  % v1 replication fluid
-    'IPA',   struct('rho_L', 786));      % isopropyl alcohol @ ~20 C
+    'IPA',   struct('rho_L', 786), ...   % isopropyl alcohol @ ~20 C
+    'N2O',   struct('rho_L', 0));        % two-phase; resolved from LUT at T_amb
 assert(isfield(presets, fluid_name), 'unknown fluid "%s"', fluid_name);
 P.fluid = presets.(fluid_name);
 P.fluid.name = fluid_name;
@@ -75,6 +76,12 @@ P.sequence = { ...
     0.0, 'OFF', 0; ...
     1.0, 'RUN', P.Target_Pressure };
 P.compat_v1 = true;       % reproduce v1 grid/interpolation artifacts exactly
+
+% --- N2O scenario hook (flight-scale conditions, LUT, ICs, gain overrides;
+%     must run before the derived block so P_1_0 etc. propagate) ---
+if strcmp(fluid_name, 'N2O')
+    P = ereg_n2o_scenario(P);
+end
 
 % --- Derived (v1 expressions verbatim - do not refactor) ---
 P.rho_L   = P.fluid.rho_L;

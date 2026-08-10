@@ -16,6 +16,14 @@ fn = fieldnames(vars);
 for i = 1:numel(fn)
     assignin('base', fn{i}, vars.(fn{i}));
 end
+if isfield(P, 'n2o_lut')   % N2O variant extras
+    assignin('base', 'n2o_lut', P.n2o_lut);
+    assignin('base', 'cv_N2', P.cv_N2);
+    assignin('base', 'cp_N2', P.cp_N2);
+    assignin('base', 'm_N2O_0', P.n2o_ic.m_N2O);
+    assignin('base', 'm_N2tank_0', P.n2o_ic.m_N2);
+    assignin('base', 'U_n2o_0', P.n2o_ic.U);
+end
 seq = ereg_make_sequence(P);
 assignin('base', 'mode_cmd_ts', seq.mode_cmd_ts);
 assignin('base', 'P_set_cmd_ts', seq.P_set_cmd_ts);
