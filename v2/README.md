@@ -6,11 +6,26 @@ so the controller is a single extractable, C-compilable, fully discrete unit.
 
 ## Run it
 
+Every configuration runs standalone with one command (own params, own
+workspace fan-out, committed model, own checks and plots):
+
 ```matlab
 cd v2/scripts
-ereg_v2_init        % params -> workspace -> sim('EReg_v2')
-ereg_v2_plot        % the four graphs -> v2/output/
+ereg_run('replication')  % v1 water-graph 1:1 gate (compat mode)
+ereg_run('water')        % clean-mode water mission
+ereg_run('IPA')          % IPA mission
+ereg_run('N2O')          % flight-scale two-phase N2O mission
+ereg_run('dual')         % shared HP bottle: IPA + N2O simultaneously
 ```
+
+('replication' needs `verification/baseline/baseline_v1.mat`; regenerate it
+from the MAIN worktree with `verification/make_baseline_v1.m`.)
+
+Lower-level: `ereg_v2_init` + `ereg_v2_plot` run the compat water sim
+directly; `ereg_run_case(fluid)` / `ereg_run_dual()` return results
+programmatically. Models are rebuilt from source by
+`build_controller_model` / `build_top_model(root, variant)` /
+`build_top_model_dual` — never hand-edit the .slx.
 
 Every tunable lives in **`scripts/ereg_params.m`** — plant geometry, fluid,
 gains (per-mode sets), timing, sequence, PT placeholders. Nothing is defined
@@ -137,9 +152,22 @@ Model limitations (deliberate): full thermodynamic equilibrium (no boiling
 lag), adiabatic walls, ideal-gas N2 at 300 bar, liquid-only outflow, LUT
 bounded to the saturation dome (`tank_flag` reports violations).
 
-## Roadmap seams
-- **Dual controllers, shared HP tank**: `ereg_controller_model` already allows
-  multiple instances; add a second Model block + LP branch and sum both
-  regulator draws into the HP tank mass balance.
+## Dual controllers, shared HP bottle
+
+`EReg_v2_Dual.slx` (`build_top_model_dual`, run via `ereg_run('dual')`): one
+6 L / 300 bar N2 bottle feeds two complete EReg branches simultaneously —
+fuel (IPA, water-law tank, 50 bar setpoint, ullage pre-charged to 45 bar as
+in the report's prelaunch state) and oxidizer (two-phase N2O, 55 bar). Two
+instances of the same `ereg_controller_model` (multi-instance model
+reference, per-instance state), shared gain set, per-branch command
+sequences. Branch plant parameters bind to `_fu`/`_ox` workspace names via
+symbol renaming at script injection (see `build_top_model_dual`).
+
+Verified (`verify_physics_dual`): N2 conserved across bottle + fuel ullage +
+ox pad to 1e-14 kg; per-branch mass/energy balances closed; both branches
+regulate independently (fuel 49.96 bar mean vs 50, ox 54.97 vs 55, no
+dead-head overshoot on either); HP 300 -> 220 bar over the mission; N2O side
+self-cools 3.9 K. Simplifications: both LP tanks share V_2; identical
+valve/servo hardware per branch. Plots in `v2/output/dual/`.
 - **PT model**: fill in the PT_tank/PT_HP masked subsystems (ZOH at Ts_pt,
   noise via seeded Random Number, Quantizer) — interface already in place.
