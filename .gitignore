@@ -43,3 +43,11 @@ slprj/
 
 # OS X
 .DS_Store
+# v2 additions
+codegen/
+*.mat
+!v2/**/fixtures/*.mat
+v2/output/
+v2/verification/baseline/
+._*
+!v2/verification/reference_figures/*.png
