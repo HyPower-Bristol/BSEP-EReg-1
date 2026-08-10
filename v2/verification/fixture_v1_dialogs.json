@@ -1,0 +1,155 @@
+{
+  "inner_pid": [
+    {
+      "path": "EReg_Tank_DrainUSETHIS/Servo Actuated Valve/Servo/PID Controller",
+      "params": {
+        "TimeDomain": "Discrete-time",
+        "SampleTime": "-1",
+        "Form": "Parallel",
+        "IntegratorMethod": "Forward Euler",
+        "FilterMethod": "Forward Euler",
+        "ControllerParametersSource": "internal",
+        "P": "3",
+        "I": "2",
+        "D": "0",
+        "N": "100",
+        "UseFilter": "on",
+        "LimitOutput": "on",
+        "UpperSaturationLimit": "inf",
+        "LowerSaturationLimit": "-inf",
+        "SatLimitsSource": "external",
+        "AntiWindupMode": "none",
+        "LimitIntegrator": "off",
+        "UpperIntegratorSaturationLimit": "inf",
+        "LowerIntegratorSaturationLimit": "-inf",
+        "InitialConditionForIntegrator": "0",
+        "InitialConditionForFilter": "0",
+        "ExternalReset": "none",
+        "UseKiTs": "off"
+      }
+    },
+    {
+      "path": "EReg_Tank_DrainUSETHIS/Subsystem/PID Controller",
+      "params": {
+        "TimeDomain": "Discrete-time",
+        "SampleTime": "-1",
+        "Form": "Parallel",
+        "IntegratorMethod": "Forward Euler",
+        "FilterMethod": "Forward Euler",
+        "ControllerParametersSource": "external",
+        "P": "1.5",
+        "I": "3",
+        "D": "0",
+        "N": "100",
+        "UseFilter": "on",
+        "LimitOutput": "off",
+        "UpperSaturationLimit": "180",
+        "LowerSaturationLimit": "0",
+        "SatLimitsSource": "internal",
+        "AntiWindupMode": "clamping",
+        "LimitIntegrator": "on",
+        "UpperIntegratorSaturationLimit": "20",
+        "LowerIntegratorSaturationLimit": "-20",
+        "InitialConditionForIntegrator": "0",
+        "InitialConditionForFilter": "0",
+        "ExternalReset": "none",
+        "UseKiTs": "off"
+      }
+    }
+  ],
+  "outer_pid": {
+    "path": "Controller/PID Controller",
+    "params": {
+      "TimeDomain": "Discrete-time",
+      "SampleTime": "-1",
+      "Form": "Parallel",
+      "IntegratorMethod": "Forward Euler",
+      "FilterMethod": "Forward Euler",
+      "ControllerParametersSource": "external",
+      "P": "1.5",
+      "I": "3",
+      "D": "0",
+      "N": "100",
+      "UseFilter": "on",
+      "LimitOutput": "off",
+      "UpperSaturationLimit": "180",
+      "LowerSaturationLimit": "0",
+      "SatLimitsSource": "internal",
+      "AntiWindupMode": "clamping",
+      "LimitIntegrator": "on",
+      "UpperIntegratorSaturationLimit": "20",
+      "LowerIntegratorSaturationLimit": "-20",
+      "InitialConditionForIntegrator": "0",
+      "InitialConditionForFilter": "0",
+      "ExternalReset": "none",
+      "UseKiTs": "off"
+    }
+  },
+  "backlash": {
+    "path": "EReg_Tank_DrainUSETHIS/Servo Actuated Valve/Backlash",
+    "params": {
+      "BacklashWidth": "0.5",
+      "InitialOutput": "0.5",
+      "ZeroCross": "on",
+      "SampleTime": "-1"
+    }
+  },
+  "integrators": [
+    {
+      "path": "EReg_Tank_DrainUSETHIS/Servo Actuated Valve/Servo/Discrete-Time\nIntegrator",
+      "params": {
+        "IntegratorMethod": "Integration: Forward Euler",
+        "InitialCondition": "0",
+        "SampleTime": "-1",
+        "gainval": "1.0",
+        "LimitOutput": "off"
+      }
+    },
+    {
+      "path": "EReg_Tank_DrainUSETHIS/Tank Plant Model/Discrete-Time\nIntegrator",
+      "params": {
+        "IntegratorMethod": "Integration: Forward Euler",
+        "InitialCondition": "m_2_0",
+        "SampleTime": "-1",
+        "gainval": "1.0",
+        "LimitOutput": "off"
+      }
+    },
+    {
+      "path": "EReg_Tank_DrainUSETHIS/Tank Plant Model/Discrete-Time\nIntegrator1",
+      "params": {
+        "IntegratorMethod": "Integration: Forward Euler",
+        "InitialCondition": "m_3_0",
+        "SampleTime": "-1",
+        "gainval": "1.0",
+        "LimitOutput": "off"
+      }
+    },
+    {
+      "path": "EReg_Tank_DrainUSETHIS/Tank Plant Model/Discrete-Time\nIntegrator2",
+      "params": {
+        "IntegratorMethod": "Integration: Forward Euler",
+        "InitialCondition": "m_1_0",
+        "SampleTime": "-1",
+        "gainval": "1.0",
+        "LimitOutput": "off"
+      }
+    }
+  ],
+  "switches": [
+    {
+      "path": "EReg_Tank_DrainUSETHIS/Servo Actuated Valve/Switch",
+      "params": {
+        "Criteria": "u2 ~= 0",
+        "Threshold": "0"
+      }
+    },
+    {
+      "path": "EReg_Tank_DrainUSETHIS/Subsystem/Switch",
+      "params": {
+        "Criteria": "u2 ~= 0",
+        "Threshold": "0"
+      }
+    }
+  ]
+}
