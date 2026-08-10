@@ -99,9 +99,21 @@ sample read ~2.7 bar (not 3), and the Repeating Sequence period wrap that
 drops all commands to 0 on the final sample. Clean mode uses stepped commands
 from `P.sequence` rows.
 
-## Roadmap seams
+## Fluids
 
-- **IPA**: set `P.fluid = struct('name','IPA','rho_L',786)` — done.
+`ereg_params(fluid_name)` selects the working fluid: `'water'` (default, the
+replication fluid) or `'IPA'`. The tank fill is volume-based (`P.V_fill` =
+12 L), so water gives exactly the v1 12 kg while IPA gives 9.43 kg (12 kg of
+IPA would not fit the 15 L tank). `ereg_run_case('IPA')` runs the standard
+clean-mode mission; `verify_physics` checks conservation, mass balance,
+capacity, injector-flow bounds and regulation quality for any fluid.
+
+IPA results (no controller retune needed): flow plateau 0.3192 kg/s vs water's
+0.3605 — ratio 0.885 vs the injector-theory prediction sqrt(786/1000) = 0.887,
+i.e. the model tracks the physics to 0.1%. RUN holds 3.01 bar; dead-head
+PRESSURIZE peaks 2.984 bar (no overshoot). Plots in `v2/output/ipa/`.
+
+## Roadmap seams
 - **N2O**: hard (two-phase self-pressurizing liquid + N2 supercharge; scoped
   out of the original report). Seam: swap `src/plant/gas_volume_properties.m`
   for a Dalton's-law variant; prototype material in `n2o_archive/`

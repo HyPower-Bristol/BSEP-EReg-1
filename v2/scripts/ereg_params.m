@@ -1,8 +1,9 @@
-function P = ereg_params()
+function P = ereg_params(fluid_name)
 %EREG_PARAMS Single source of truth for every tunable in the EReg v2 sim.
 % Edit values here; nothing is defined anywhere else. Derived quantities at the
 % bottom reuse v1's exact expressions so the water-graph replication stays
 % bit-comparable - don't simplify them.
+% Optional arg selects the working fluid ('water' default, 'IPA').
 
 % --- Timing ---
 P.Ts_sim       = 1/500;   % plant/solver step [s] (v1 solver rate)
@@ -15,9 +16,9 @@ P.P_1_0  = 15 * 1e5;      % initial HP pressure [Pa] (v1: 15 bar)
 P.V_1    = 3e-3;          % HP tank volume [m^3]
 
 % --- LP propellant tank ---
-P.V_2   = 15e-3;          % LP tank volume [m^3]
-P.m_3_0 = 12;             % initial liquid mass [kg]
-P.P_2_0 = 0;              % initial ullage pressure [Pa]
+P.V_2    = 15e-3;         % LP tank volume [m^3]
+P.V_fill = 12e-3;         % initial liquid VOLUME [m^3] (fluid-independent fill)
+P.P_2_0  = 0;             % initial ullage pressure [Pa]
 
 % --- Flow path ---
 P.A_3      = 60e-6;       % injector orifice area [m^2]
@@ -25,9 +26,14 @@ P.Cd_3     = 0.7;         % injector discharge coefficient
 P.K_v_4    = 0.5;         % check valve flow coefficient
 P.Kv_1_max = 1;           % regulator valve max Kv
 
-% --- Fluid (swap for IPA/N2O upgrades) ---
-P.fluid.name  = 'water';
-P.fluid.rho_L = 1000;     % liquid density [kg/m^3]
+% --- Fluid (N2O needs its own two-phase design pass, not just a density) ---
+if nargin < 1, fluid_name = 'water'; end
+presets = struct( ...
+    'water', struct('rho_L', 1000), ...  % v1 replication fluid
+    'IPA',   struct('rho_L', 786));      % isopropyl alcohol @ ~20 C
+assert(isfield(presets, fluid_name), 'unknown fluid "%s"', fluid_name);
+P.fluid = presets.(fluid_name);
+P.fluid.name = fluid_name;
 
 % --- Gas constants ---
 P.R_N2     = 296;
@@ -72,6 +78,8 @@ P.compat_v1 = true;       % reproduce v1 grid/interpolation artifacts exactly
 
 % --- Derived (v1 expressions verbatim - do not refactor) ---
 P.rho_L   = P.fluid.rho_L;
+P.m_3_0   = P.fluid.rho_L * P.V_fill;   % water: 1000*12e-3 = exactly 12 kg (v1 value)
+assert(P.V_fill <= P.V_2, 'fill volume exceeds tank volume');
 P.rho_1_0 = P.P_1_0 / (P.R_N2 * P.T_0_N2);
 P.rho_2_0 = P.P_2_0 / (P.R_N2 * P.T_0_N2);
 P.m_2_0   = P.rho_2_0 * (P.V_2 - P.m_3_0 / P.rho_L);

@@ -15,6 +15,8 @@ function seq = ereg_make_sequence(P)
 m = ereg_controller_modes();
 
 if P.compat_v1
+    assert(strcmp(P.fluid.name, 'water'), ...
+        'compat_v1 replication is defined for water only (got %s)', P.fluid.name);
     num = round(P.Sim_Duration / 0.001);            % v1: Num_Steps = 10000
     tgrid = linspace(0, P.Sim_Duration, num)';      % v1 grid, spacing 10/9999
     setp = zeros(num, 1);

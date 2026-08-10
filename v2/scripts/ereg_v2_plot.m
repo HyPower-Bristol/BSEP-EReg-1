@@ -1,12 +1,13 @@
-function ereg_v2_plot(results, outdir)
+function ereg_v2_plot(results, outdir, P)
 %EREG_V2_PLOT Regenerate the four reference graphs from a v2 sim run.
 % Usage: run ereg_v2_init first, then ereg_v2_plot(results).
+% Pass the case's P (from ereg_run_case) for non-default fluids.
 if nargin < 1, results = evalin('base', 'results'); end
 here = fileparts(mfilename('fullpath'));
 if nargin < 2, outdir = fullfile(here, '..', 'output'); end
 if ~exist(outdir, 'dir'), mkdir(outdir); end
 addpath(here);
-P = ereg_params();
+if nargin < 3, P = ereg_params(); end
 
 ls_ = results.logsout;
 g = @(nm) ls_.getElement(nm).Values;
