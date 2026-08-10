@@ -113,11 +113,31 @@ IPA results (no controller retune needed): flow plateau 0.3192 kg/s vs water's
 i.e. the model tracks the physics to 0.1%. RUN holds 3.01 bar; dead-head
 PRESSURIZE peaks 2.984 bar (no overshoot). Plots in `v2/output/ipa/`.
 
+## N2O (two-phase, flight-scale)
+
+`EReg_v2_N2O.slx` (`build_top_model(root,'n2o')`, run via `ereg_run_case('N2O')`)
+replaces the LP tank with an **equilibrium two-phase N2O model with a full
+energy balance**: states (m_N2O, m_N2_pad, U_total), per-step bisection on T
+closing volume + energy against the CoolProp saturation LUT
+(`n2o_archive/n2o_saturation_properties.csv`), P_tank = P_sat(T) + P_N2
+(Dalton). Injector flow is **Dyer/NHNE** (k-weighted SPI/HEM, isentropic
+downstream state from the LUT) — SPI-dominated under supercharge. Scenario:
+300 bar HP bottle, 55 bar setpoint, 288 K, 12 L fill (report flight regime;
+the water-rig numbers are meaningless for N2O since P_sat(288 K) = 44.9 bar).
+
+Verified (`test_n2o_offline` + `verify_physics_n2o`): IC round-trip exact,
+Dalton partial pressures exact, N2O/N2 mass and energy balances closed to
+integrator precision, no regime clamps, honest self-cooling — the tank drops
+4.0 K during the 2.6 kg drain with P_sat collapsing 44.9 -> 41.0 bar while
+the controller holds 54.98 bar mean (54.83 bar max in dead-head, no
+overshoot). N2O gains: report flight values (K_P=16, K_I=17, K_D=8,
+gs_gain=2.5); PRESSURIZE pad set (0.5, 0.3, 2). Plots in `v2/output/n2o/`.
+
+Model limitations (deliberate): full thermodynamic equilibrium (no boiling
+lag), adiabatic walls, ideal-gas N2 at 300 bar, liquid-only outflow, LUT
+bounded to the saturation dome (`tank_flag` reports violations).
+
 ## Roadmap seams
-- **N2O**: hard (two-phase self-pressurizing liquid + N2 supercharge; scoped
-  out of the original report). Seam: swap `src/plant/gas_volume_properties.m`
-  for a Dalton's-law variant; prototype material in `n2o_archive/`
-  (`EReg_Tank_Drain_N2O_Sim.m`, saturation LUT csv). Own design pass required.
 - **Dual controllers, shared HP tank**: `ereg_controller_model` already allows
   multiple instances; add a second Model block + LP branch and sum both
   regulator draws into the HP tank mass balance.
