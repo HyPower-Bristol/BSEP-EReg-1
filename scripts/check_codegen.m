@@ -1,11 +1,10 @@
-function check_codegen(v2_root)
+function check_codegen(vdir)
 %CHECK_CODEGEN Prove the controller compiles to C via both paths.
 % Path A: Simulink/Embedded Coder build of ereg_controller_model (ert.tlc,
 %         code only - no toolchain required).
 % Path B: MATLAB Coder lib from ereg_controller_hw_step.m (the pure .m route
 %         that proves the flight code is liftable without Simulink).
-if nargin < 1, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
-vdir = fullfile(v2_root, 'v2');
+if nargin < 1, vdir = fileparts(fileparts(mfilename('fullpath'))); end
 addpath(fullfile(vdir, 'src', 'controller'), fullfile(vdir, 'scripts'), fullfile(vdir, 'models'));
 P = ereg_params();
 ereg_fanout(P);

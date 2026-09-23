@@ -52,7 +52,7 @@ slprj/
 # v2 additions
 codegen/
 *.mat
-!v2/verification/baseline/baseline_v1.mat
-v2/output/
+!verification/baseline/baseline_v1.mat
+/output/
 ._*
-!v2/verification/reference_figures/*.png
+!verification/reference_figures/*.png

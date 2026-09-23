@@ -1,4 +1,4 @@
-function extract_v1_sources(v1_dir, v2_root)
+function extract_v1_sources(v1_dir, vdir)
 %EXTRACT_V1_SOURCES Pull the five MATLAB Function scripts out of the v1 model
 % verbatim, plus a JSON fixture of the block dialog parameters the v2 build
 % must reproduce. v1_dir is a checkout of checkpoint commit d8d1f98 (v1 is
@@ -6,7 +6,7 @@ function extract_v1_sources(v1_dir, v2_root)
 if nargin < 1 || isempty(v1_dir)
     error('extract_v1_sources: pass v1_dir, a checkout of commit d8d1f98 (v1 is not on main)');
 end
-if nargin < 2, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
+if nargin < 2, vdir = fileparts(fileparts(mfilename('fullpath'))); end
 
 load_system(fullfile(v1_dir, 'EReg_Tank_DrainUSETHIS.slx'));
 
@@ -17,7 +17,7 @@ map = { ...
     'Valve Gear Conversion', 'valve_gear_conversion.m'; ...
     'Valve area',            'valve_area_poly.m'; ...
     'Signal normalisation',  'servo_demand_clamp.m'};
-outdir = fullfile(v2_root, 'v2', 'src', 'plant');
+outdir = fullfile(vdir, 'src', 'plant');
 if ~exist(outdir, 'dir'), mkdir(outdir); end
 found = false(size(map, 1), 1);
 for c = 1:numel(charts)
@@ -57,7 +57,7 @@ fix.integrators = grab(find_system(mdl, 'BlockType', 'DiscreteIntegrator'), ...
     {'IntegratorMethod', 'InitialCondition', 'SampleTime', 'gainval', 'LimitOutput'});
 fix.switches = grab(find_system(mdl, 'BlockType', 'Switch'), {'Criteria', 'Threshold'});
 
-fixfile = fullfile(v2_root, 'v2', 'verification', 'fixture_v1_dialogs.json');
+fixfile = fullfile(vdir, 'verification', 'fixture_v1_dialogs.json');
 fid = fopen(fixfile, 'w');
 fwrite(fid, jsonencode(fix, 'PrettyPrint', true));
 fclose(fid);

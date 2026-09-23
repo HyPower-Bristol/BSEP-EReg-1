@@ -19,7 +19,7 @@ addpath(here, ...
 
 switch lower(what)
     case 'replication'
-        run_verification(fileparts(fileparts(here)));
+        run_verification(fileparts(here));
         results = evalin('base', 'results');
     case 'water'
         [results, P] = ereg_run_case('water');

@@ -1,10 +1,9 @@
-function build_controller_model(v2_root)
+function build_controller_model(vdir)
 %BUILD_CONTROLLER_MODEL Programmatically build ereg_controller_model.slx -
 % the deployable controller unit: one MATLAB Function block (flight code
 % wrapper) plus the servo position Discrete-Time Integrator that breaks the
 % valve-angle feedback loop exactly as v1's servo integrator does.
-if nargin < 1, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
-vdir = fullfile(v2_root, 'v2');
+if nargin < 1, vdir = fileparts(fileparts(mfilename('fullpath'))); end
 addpath(fullfile(vdir, 'src', 'controller'), fullfile(vdir, 'scripts'));
 P = ereg_params();
 ereg_fanout(P);   % Ts_ctrl / ctrl_params must resolve during the compile check

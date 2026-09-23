@@ -1,11 +1,10 @@
-function smoke_test_clean(v2_root)
+function smoke_test_clean(vdir)
 %SMOKE_TEST_CLEAN Exercise the state machine the way v1 never could:
 % OFF -> ARMED -> PRESSURIZE (dead-head to 3 bar on the overdamped gain set,
 % run valve closed) -> RUN (valve open, v1 gains). Asserts the PRESSURIZE
 % phase reaches setpoint without overshoot (dead-head overshoot is permanent -
 % the check valve prevents venting) and RUN holds setpoint under flow.
-if nargin < 1, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
-vdir = fullfile(v2_root, 'v2');
+if nargin < 1, vdir = fileparts(fileparts(mfilename('fullpath'))); end
 addpath(fullfile(vdir, 'scripts'), fullfile(vdir, 'src', 'controller'), ...
     fullfile(vdir, 'src', 'plant'), fullfile(vdir, 'models'));
 

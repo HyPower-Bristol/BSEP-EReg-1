@@ -1,8 +1,13 @@
 # EReg v2
 
-Clean rebuild of the EReg tank-drain simulation. Same physics and control law
-as v1 (`EReg_Tank_DrainUSETHIS.slx`, checkpoint commit `d8d1f98`), restructured
-so the controller is a single extractable, C-compilable, fully discrete unit.
+Simulink model and flight-controller code for the HyPower E-Reg: a
+servo-driven ball valve between the N2 pressurant bottle and a propellant
+tank, closing the loop on tank pressure.
+
+v2 is a clean rebuild of the v1 tank-drain simulation: same physics and control
+law as v1 (`EReg_Tank_DrainUSETHIS.slx`, checkpoint commit `d8d1f98`),
+restructured so the controller is a single extractable, C-compilable, fully
+discrete unit.
 
 Requires MATLAB R2025b with Simulink; `scripts/check_codegen.m` also needs
 Simulink Coder and MATLAB Coder (Embedded Coder optional: it falls back to
@@ -16,7 +21,7 @@ Every configuration runs standalone with one command (own params, own
 workspace fan-out, committed model, own checks and plots):
 
 ```matlab
-cd v2/scripts
+cd scripts
 ereg_run('replication')  % v1 water-graph 1:1 gate (compat mode)
 ereg_run('water')        % clean-mode water mission
 ereg_run('IPA')          % IPA mission
@@ -114,7 +119,7 @@ Additional gates, both passing:
    overdamped gain set) -> RUN (valve open: holds 3.02 bar mean).
 4. `check_codegen.m` — Path A generated `ereg_controller_model.c` (ert.tlc),
    Path B generated the MATLAB Coder lib from `ereg_controller_hw_step`
-   (reports in `v2/output/`).
+   (reports in `output/`).
 
 Compat mode (`P.compat_v1 = true`) reproduces v1's stimulus artifacts exactly:
 the `linspace(0,10,10000)` grid whose linear interpolation makes the t=1.0
@@ -134,7 +139,7 @@ capacity, injector-flow bounds and regulation quality for any fluid.
 IPA results (no controller retune needed): flow plateau 0.3192 kg/s vs water's
 0.3605 — ratio 0.885 vs the injector-theory prediction sqrt(786/1000) = 0.887,
 i.e. the model tracks the physics to 0.1%. RUN holds 3.01 bar; dead-head
-PRESSURIZE peaks 2.984 bar (no overshoot). Plots in `v2/output/ipa/`.
+PRESSURIZE peaks 2.984 bar (no overshoot). Plots in `output/ipa/`.
 
 ## N2O (two-phase, flight-scale)
 
@@ -157,7 +162,7 @@ integrator precision, no regime clamps, honest self-cooling — the tank drops
 4.0 K during the 2.6 kg drain with P_sat collapsing 44.9 -> 41.0 bar while
 the controller holds 54.98 bar mean (54.83 bar max in dead-head, no
 overshoot). N2O gains: report flight values (K_P=16, K_I=17, K_D=8,
-gs_gain=2.5); PRESSURIZE pad set (0.5, 0.3, 2). Plots in `v2/output/n2o/`.
+gs_gain=2.5); PRESSURIZE pad set (0.5, 0.3, 2). Plots in `output/n2o/`.
 
 Model limitations (deliberate): full thermodynamic equilibrium (no boiling
 lag), adiabatic walls, ideal-gas N2 at 300 bar, liquid-only outflow, LUT
@@ -179,7 +184,7 @@ ox pad to 1e-14 kg; per-branch mass/energy balances closed; both branches
 regulate independently (fuel 49.96 bar mean vs 50, ox 54.97 vs 55, no
 dead-head overshoot on either); HP 300 -> 220 bar over the mission; N2O side
 self-cools 3.9 K. Simplifications: both LP tanks share V_2; identical
-valve/servo hardware per branch. Plots in `v2/output/dual/`.
+valve/servo hardware per branch. Plots in `output/dual/`.
 
 ## Roadmap
 

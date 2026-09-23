@@ -1,4 +1,4 @@
-function build_top_model(v2_root, variant)
+function build_top_model(vdir, variant)
 %BUILD_TOP_MODEL Programmatically build the top model: plant, servo & valve
 % mechanics, PT passthrough blocks, external command sources, and the
 % referenced controller model. Reproduces v1's signal names and logging marks
@@ -6,9 +6,8 @@ function build_top_model(v2_root, variant)
 % variant: 'water' (default -> EReg_v2.slx, verbatim v1 physics, also used for
 % IPA) or 'n2o' (-> EReg_v2_N2O.slx, equilibrium two-phase N2O tank + Dyer
 % injector). Only the Tank Plant internals differ - same interface.
-if nargin < 1 || isempty(v2_root), v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
+if nargin < 1 || isempty(vdir), vdir = fileparts(fileparts(mfilename('fullpath'))); end
 if nargin < 2, variant = 'water'; end
-vdir = fullfile(v2_root, 'v2');
 plantdir = fullfile(vdir, 'src', 'plant');
 addpath(fullfile(vdir, 'src', 'controller'), fullfile(vdir, 'src', 'plant'), ...
     fullfile(vdir, 'scripts'), fullfile(vdir, 'models'));
