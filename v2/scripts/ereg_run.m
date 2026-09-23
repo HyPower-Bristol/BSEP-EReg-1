@@ -4,9 +4,8 @@ function results = ereg_run(what)
 % own workspace variables, uses the committed models, and runs its own
 % verification and plots. No case depends on another having run first.
 %
-%   ereg_run('replication')  v1 water-graph 1:1 gate (compat mode; needs
-%                            baseline_v1.mat - generate it once with
-%                            verification/make_baseline_v1.m)
+%   ereg_run('replication')  v1 water-graph 1:1 gate (compat mode) against
+%                            the committed verification/baseline/baseline_v1.mat
 %   ereg_run('water')        clean-mode water mission + physics checks
 %   ereg_run('IPA')          clean-mode IPA mission + physics checks
 %   ereg_run('N2O')          flight-scale two-phase N2O mission + checks

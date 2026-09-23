@@ -4,7 +4,7 @@ function P = ereg_n2o_scenario(P)
 % to a 55 bar setpoint from a 300 bar HP bottle - the report's flight regime.
 % The water-rig numbers are meaningless for N2O, hence the overrides.
 here = fileparts(mfilename('fullpath'));
-csvfile = fullfile(here, '..', '..', 'n2o_archive', 'n2o_saturation_properties.csv');
+csvfile = fullfile(here, '..', 'data', 'n2o_saturation_properties.csv');
 M = readmatrix(csvfile);
 assert(size(M, 2) == 10, 'unexpected LUT format in %s', csvfile);
 P.n2o_lut = struct( ...

@@ -1,10 +1,12 @@
 function extract_v1_sources(v1_dir, v2_root)
 %EXTRACT_V1_SOURCES Pull the five MATLAB Function scripts out of the v1 model
 % verbatim, plus a JSON fixture of the block dialog parameters the v2 build
-% must reproduce.
-root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
-if nargin < 1 || isempty(v1_dir), v1_dir = root; end
-if nargin < 2, v2_root = root; end
+% must reproduce. v1_dir is a checkout of checkpoint commit d8d1f98 (v1 is
+% not on main).
+if nargin < 1 || isempty(v1_dir)
+    error('extract_v1_sources: pass v1_dir, a checkout of commit d8d1f98 (v1 is not on main)');
+end
+if nargin < 2, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
 
 load_system(fullfile(v1_dir, 'EReg_Tank_DrainUSETHIS.slx'));
 

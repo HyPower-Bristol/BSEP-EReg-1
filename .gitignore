@@ -34,20 +34,25 @@ slprj/
 *.slxc
 *.asv
 *.mexmaci64
+*.mexmaca64
 *.mexw64
 *.mexa64
 *.autosave
+*.slx.r20*
 
 # VS Code
 .vscode/
 
 # OS X
 .DS_Store
+
+# LibreOffice lock files
+.~lock.*#
+
 # v2 additions
 codegen/
 *.mat
-!v2/**/fixtures/*.mat
+!v2/verification/baseline/baseline_v1.mat
 v2/output/
-v2/verification/baseline/
 ._*
 !v2/verification/reference_figures/*.png

@@ -1,8 +1,12 @@
 function make_baseline_v1(v1_dir, out_file)
 %MAKE_BASELINE_V1 Run the v1 model and capture the reference dataset.
-% Runs the v1 EReg_Tank_Drain_Init.m at the repo root (the committed
-% graph-producing state) and saves all logged signals to baseline_v1.mat.
-if nargin < 1 || isempty(v1_dir), v1_dir = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
+% Runs the v1 EReg_Tank_Drain_Init.m in v1_dir, a checkout of checkpoint
+% commit d8d1f98 (the graph-producing state; v1 is not on main), e.g.
+%   git worktree add ../ereg-v1 d8d1f98
+% and saves all logged signals to baseline_v1.mat (committed).
+if nargin < 1 || isempty(v1_dir)
+    error('make_baseline_v1: pass v1_dir, a checkout of commit d8d1f98 (v1 is not on main)');
+end
 if nargin < 2
     out_file = fullfile(fileparts(mfilename('fullpath')), 'baseline', 'baseline_v1.mat');
 end

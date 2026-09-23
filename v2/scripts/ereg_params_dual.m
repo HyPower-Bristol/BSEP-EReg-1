@@ -50,7 +50,7 @@ P.ox.K_v_4 = 0.5;
 P.ox.Target = 55;         % [bar]
 P.ox.T_amb = 288;
 here = fileparts(mfilename('fullpath'));
-M = readmatrix(fullfile(here, '..', '..', 'n2o_archive', 'n2o_saturation_properties.csv'));
+M = readmatrix(fullfile(here, '..', 'data', 'n2o_saturation_properties.csv'));
 P.n2o_lut = struct('T', M(:,1), 'P', M(:,2), 'rho_L', M(:,3), 'rho_V', M(:,4), ...
     'u_L', M(:,5), 'u_V', M(:,6), 'h_L', M(:,7), 'h_V', M(:,8), 's_L', M(:,9), 's_V', M(:,10));
 g = @(col) interp1(P.n2o_lut.T, P.n2o_lut.(col), P.ox.T_amb);
