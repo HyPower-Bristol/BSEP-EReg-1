@@ -7,6 +7,9 @@ if nargin < 1 || isempty(v1_dir)
     error('extract_v1_sources: pass v1_dir, a checkout of commit d8d1f98 (v1 is not on main)');
 end
 if nargin < 2, vdir = fileparts(fileparts(mfilename('fullpath'))); end
+% v1's Subsystem is a subsystem reference to Controller.slx, resolved by name
+addpath(v1_dir);
+restore = onCleanup(@() rmpath(v1_dir));
 
 load_system(fullfile(v1_dir, 'EReg_Tank_DrainUSETHIS.slx'));
 
