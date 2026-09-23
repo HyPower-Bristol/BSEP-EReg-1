@@ -3,7 +3,7 @@ function build_controller_model(v2_root)
 % the deployable controller unit: one MATLAB Function block (flight code
 % wrapper) plus the servo position Discrete-Time Integrator that breaks the
 % valve-angle feedback loop exactly as v1's servo integrator does.
-if nargin < 1, v2_root = 'D:\GitHub\BSEP-EReg-1-v2'; end
+if nargin < 1, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
 vdir = fullfile(v2_root, 'v2');
 addpath(fullfile(vdir, 'src', 'controller'), fullfile(vdir, 'scripts'));
 P = ereg_params();

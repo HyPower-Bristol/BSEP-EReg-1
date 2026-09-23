@@ -6,7 +6,7 @@ function build_top_model(v2_root, variant)
 % variant: 'water' (default -> EReg_v2.slx, verbatim v1 physics, also used for
 % IPA) or 'n2o' (-> EReg_v2_N2O.slx, equilibrium two-phase N2O tank + Dyer
 % injector). Only the Tank Plant internals differ - same interface.
-if nargin < 1, v2_root = 'D:\GitHub\BSEP-EReg-1-v2'; end
+if nargin < 1 || isempty(v2_root), v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
 if nargin < 2, variant = 'water'; end
 vdir = fullfile(v2_root, 'v2');
 plantdir = fullfile(vdir, 'src', 'plant');

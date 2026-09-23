@@ -5,7 +5,7 @@ function build_top_model_dual(v2_root)
 % valve, PT, and command sequence. Branch plant parameters are bound to
 % _fu/_ox base-workspace names by renaming the chart parameter symbols at
 % injection time.
-if nargin < 1, v2_root = 'D:\GitHub\BSEP-EReg-1-v2'; end
+if nargin < 1, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
 vdir = fullfile(v2_root, 'v2');
 plantdir = fullfile(vdir, 'src', 'plant');
 addpath(fullfile(vdir, 'src', 'controller'), fullfile(vdir, 'src', 'plant'), ...

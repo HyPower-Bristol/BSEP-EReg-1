@@ -2,7 +2,7 @@ function run_verification(v2_root)
 %RUN_VERIFICATION Full-loop 1:1 gate - sim v2 in compat mode and compare every
 % logged signal against the v1 baseline. Acceptance: rel <= 1e-6 on all
 % signals. Writes v2/output/verification_report.txt + 4 overlay PNGs.
-if nargin < 1, v2_root = 'D:\GitHub\BSEP-EReg-1-v2'; end
+if nargin < 1, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
 vdir = fullfile(v2_root, 'v2');
 addpath(fullfile(vdir, 'scripts'), fullfile(vdir, 'verification'), ...
     fullfile(vdir, 'src', 'controller'), fullfile(vdir, 'src', 'plant'), ...

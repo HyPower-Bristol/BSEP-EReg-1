@@ -1,6 +1,6 @@
 function P = ereg_n2o_scenario(P)
 %EREG_N2O_SCENARIO Flight-scale N2O overrides + saturation LUT + tank ICs.
-% Self-pressurized nitrous (P_sat ~ 41 bar at 288 K) supercharged by the EReg
+% Self-pressurized nitrous (P_sat ~ 44.9 bar at 288 K) supercharged by the EReg
 % to a 55 bar setpoint from a 300 bar HP bottle - the report's flight regime.
 % The water-rig numbers are meaningless for N2O, hence the overrides.
 here = fileparts(mfilename('fullpath'));

@@ -2,8 +2,9 @@ function extract_v1_sources(v1_dir, v2_root)
 %EXTRACT_V1_SOURCES Pull the five MATLAB Function scripts out of the v1 model
 % verbatim, plus a JSON fixture of the block dialog parameters the v2 build
 % must reproduce.
-if nargin < 1, v1_dir = 'D:\GitHub\BSEP-EReg-1'; end
-if nargin < 2, v2_root = 'D:\GitHub\BSEP-EReg-1-v2'; end
+root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
+if nargin < 1 || isempty(v1_dir), v1_dir = root; end
+if nargin < 2, v2_root = root; end
 
 load_system(fullfile(v1_dir, 'EReg_Tank_DrainUSETHIS.slx'));
 

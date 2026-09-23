@@ -4,7 +4,7 @@ function check_codegen(v2_root)
 %         code only - no toolchain required).
 % Path B: MATLAB Coder lib from ereg_controller_hw_step.m (the pure .m route
 %         that proves the flight code is liftable without Simulink).
-if nargin < 1, v2_root = 'D:\GitHub\BSEP-EReg-1-v2'; end
+if nargin < 1, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
 vdir = fullfile(v2_root, 'v2');
 addpath(fullfile(vdir, 'src', 'controller'), fullfile(vdir, 'scripts'), fullfile(vdir, 'models'));
 P = ereg_params();
@@ -17,13 +17,18 @@ restore = onCleanup(@() cd(old));
 
 % --- Path A ---
 assert(license('test', 'Real-Time_Workshop') == 1, 'Simulink Coder license unavailable');
-if license('test', 'RTW_Embedded_Coder') ~= 1
-    warning('Embedded Coder unlicensed - falling back to grt.tlc');
+% license('test') is true for licensed-but-not-installed products, so also
+% check the installed product list before relying on ert.tlc.
+v = ver;
+tgt = 'ert';
+if license('test', 'RTW_Embedded_Coder') ~= 1 || ~any(strcmp({v.Name}, 'Embedded Coder'))
+    warning('Embedded Coder unlicensed or not installed - falling back to grt.tlc');
     load_system('ereg_controller_model');
     set_param('ereg_controller_model', 'SystemTargetFile', 'grt.tlc');
+    tgt = 'grt';
 end
 slbuild('ereg_controller_model');
-cfile = fullfile(outdir, 'ereg_controller_model_ert_rtw', 'ereg_controller_model.c');
+cfile = fullfile(outdir, ['ereg_controller_model_' tgt '_rtw'], 'ereg_controller_model.c');
 if exist(cfile, 'file')
     fprintf('Path A OK: %s\n', cfile);
 else

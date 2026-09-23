@@ -5,8 +5,8 @@ function results = ereg_run(what)
 % verification and plots. No case depends on another having run first.
 %
 %   ereg_run('replication')  v1 water-graph 1:1 gate (compat mode; needs
-%                            baseline_v1.mat - regenerate from the MAIN
-%                            worktree with verification/make_baseline_v1.m)
+%                            baseline_v1.mat - generate it once with
+%                            verification/make_baseline_v1.m)
 %   ereg_run('water')        clean-mode water mission + physics checks
 %   ereg_run('IPA')          clean-mode IPA mission + physics checks
 %   ereg_run('N2O')          flight-scale two-phase N2O mission + checks
@@ -20,7 +20,7 @@ addpath(here, ...
 
 switch lower(what)
     case 'replication'
-        run_verification(fullfile(here, '..', '..'));
+        run_verification(fileparts(fileparts(here)));
         results = evalin('base', 'results');
     case 'water'
         [results, P] = ereg_run_case('water');

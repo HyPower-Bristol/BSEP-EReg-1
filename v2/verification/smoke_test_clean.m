@@ -4,7 +4,7 @@ function smoke_test_clean(v2_root)
 % run valve closed) -> RUN (valve open, v1 gains). Asserts the PRESSURIZE
 % phase reaches setpoint without overshoot (dead-head overshoot is permanent -
 % the check valve prevents venting) and RUN holds setpoint under flow.
-if nargin < 1, v2_root = 'D:\GitHub\BSEP-EReg-1-v2'; end
+if nargin < 1, v2_root = fileparts(fileparts(fileparts(mfilename('fullpath')))); end
 vdir = fullfile(v2_root, 'v2');
 addpath(fullfile(vdir, 'scripts'), fullfile(vdir, 'src', 'controller'), ...
     fullfile(vdir, 'src', 'plant'), fullfile(vdir, 'models'));
